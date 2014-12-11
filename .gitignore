@@ -1,2 +1,4 @@
 /exdata-data-NEI_data/*
 .DS_Store
+.Rhistory
+.RData
