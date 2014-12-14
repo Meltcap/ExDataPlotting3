@@ -4,6 +4,7 @@
 setwd("~/git/ExDataPlotting3")
 
 library(dplyr)
+
 # read in the data
 NEI <- readRDS("exdata-data-NEI_data/summarySCC_PM25.rds")
 SCC <- readRDS("exdata-data-NEI_data/Source_Classification_Code.rds")
@@ -11,10 +12,8 @@ SCC <- readRDS("exdata-data-NEI_data/Source_Classification_Code.rds")
 NEI <- tbl_df(NEI)
 SCC <- tbl_df(SCC)
 
-str(NEI)
-str(SCC)
-
-# 1. get the sum of emissions for each year in a new data.frame
+# 1. get the sum of emissions for each year in a new data.frame, filter on
+#    Baltimore City
 NEIyears <- NEI %>%
     filter(fips == "24510") %>%
     group_by(year) %>%
@@ -22,6 +21,7 @@ NEIyears <- NEI %>%
     summarise(totalEmissions = sum(Emissions))
 
 # 2. plot the emissions as dots
+png("plot2.png", 480, 380)
 with(NEIyears, {
     plot(year, 
          totalEmissions,
@@ -32,3 +32,4 @@ with(NEIyears, {
          ylab=expression('Emission of PM'[2.5]*' (in tons)'))
     axis(1, at = year, labels = year)
 })
+dev.off()

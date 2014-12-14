@@ -15,9 +15,6 @@ SCC <- readRDS("exdata-data-NEI_data/Source_Classification_Code.rds")
 NEI <- tbl_df(NEI)
 SCC <- tbl_df(SCC)
 
-str(NEI)
-str(SCC)
-
 # 1. get the sum of emissions for each year in a new data.frame
 NEIyears <- NEI %>%
     group_by(year) %>%
@@ -25,6 +22,7 @@ NEIyears <- NEI %>%
     summarise(totalEmissions = sum(Emissions))
 
 # 2. plot the emissions as dots
+png("plot1.png", 480, 380)
 with(NEIyears, {
     plot(year, 
          totalEmissions / 1e+06,
@@ -35,3 +33,4 @@ with(NEIyears, {
          ylab=expression('Emission of PM'[2.5]*' (in Mtons)'))
     axis(1, at = year, labels = year)
 })
+dev.off()
